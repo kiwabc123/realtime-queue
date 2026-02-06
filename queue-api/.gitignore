@@ -1,0 +1,44 @@
+# Go dependencies
+vendor/
+
+# Node.js dependencies
+node_modules/
+
+# Python dependencies
+__pycache__/
+*.pyc
+
+# General
+.env
+*.log
+*.lock
+# Binaries
+/app
+/app.exe
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below if you use Go modules)
+/vendor/
+
+# Go workspace file
+*.code-workspace
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+
+# Node/npm
+node_modules/

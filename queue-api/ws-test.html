@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket Queue Test</title>
+</head>
+<body>
+  <h1>WebSocket Queue Test</h1>
+  <input id="msg" type="text" placeholder="Enter message">
+  <button onclick="sendMsg()">Send</button>
+  <button onclick="clearQueue()">Clear Queue</button>
+  <div>
+    <strong>Count:</strong> <span id="count">0</span>
+  </div>
+  <div>
+    <strong>Queue:</strong> <span id="queue">[]</span>
+  </div>
+  <pre id="output"></pre>
+  <script>
+    const ws = new WebSocket("ws://localhost:8080/ws");
+    const output = document.getElementById('output');
+    ws.onopen = () => output.textContent += 'WebSocket connected\n';
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        document.getElementById('count').textContent = data.count;
+        document.getElementById('queue').textContent = JSON.stringify(data.queue);
+      } catch (e) {
+        output.textContent += event.data + '\n';
+      }
+    };
+    ws.onerror = (e) => output.textContent += 'WebSocket error!\n';
+    function sendMsg() {
+      const msg = document.getElementById('msg').value;
+      ws.send(msg);
+    }
+    function clearQueue() {
+      ws.send('clear');
+    }
+  </script>
+</body>
+</html>

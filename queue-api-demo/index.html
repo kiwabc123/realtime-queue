@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Queue Socket Demo</title>
+</head>
+<body>
+  <h2>Queue</h2>
+  <ul id="queue"></ul>
+
+  <input id="value" placeholder="Enter name" />
+  <button onclick="add()">Add</button>
+  <button onclick="clearQueue()">Clear</button>
+
+  <script>
+    const ws = new WebSocket("ws://localhost:8080/ws");
+    const list = document.getElementById("queue");
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data).queue;
+      const length = JSON.parse(event.data).count;
+      document.title = `Queue Socket Demo (${length})`;
+      list.innerHTML = "";
+
+      data.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    };
+
+    function add() {
+      const value = document.getElementById("value").value;
+      ws.send(JSON.stringify({ action: "add", value }));
+    }
+
+    function clearQueue() {
+      ws.send(JSON.stringify({ action: "clear" }));
+    }
+  </script>
+</body>
+</html>

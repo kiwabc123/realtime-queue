@@ -1,0 +1,17 @@
+# Go dependencies
+vendor/
+
+# Node.js dependencies
+node_modules/
+
+# Python dependencies
+__pycache__/
+*.pyc
+
+# General
+.env
+*.log
+*.lock
+.vscode/
+.idea/
+.DS_Store

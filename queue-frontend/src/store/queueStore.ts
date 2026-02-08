@@ -31,6 +31,7 @@ function connectWs() {
 
   ws.onopen = () => {
     console.log('WS connected')
+    ws.send('get') // Always request current queue on connect
   }
 
   ws.onmessage = (evt) => {
@@ -41,6 +42,7 @@ function connectWs() {
         localStorage.removeItem('client_id')
         clientId = getOrCreateClientId()
         console.log('WS clear event: localStorage cleared & queue refreshed')
+        ws.send('get') // Request current queue after clear
       }
       if (data && data.event === 'queue') {
         ws.send('get')

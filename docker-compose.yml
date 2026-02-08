@@ -6,6 +6,8 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+    volumes:
+      - ./queue-api/db/queue.db:/app/queue.db
   vue-frontend:
     build:
       context: ./queue-frontend
@@ -14,4 +16,3 @@ services:
     depends_on:
       - queue-api
     restart: unless-stopped
-    

@@ -59,6 +59,8 @@ ws.onopen = () => ws.send('get');
 
 A simple realtime queue system using Go (Gin, WebSocket) for the backend and Vue 3 (Vite) for the frontend.
 
+> **Note:** The queue logic is currently in-memory (data resets on server restart) and fully Dockerized for easy testing and deployment. If you need persistent queue storage, you can extend the backend to use a database (e.g., SQLite, PostgreSQL).
+
 ## Features
 - REST API and WebSocket for queue management
 - Per-client queue assignment (sequential, unique)

@@ -13,10 +13,18 @@ let clientId = getOrCreateClientId()
 const currentQueue = ref('A0') // global queue (from WS)
 const yourQueue = ref('A0')    // local queue (from REST)
 let updateCallbacks: ((q: string) => void)[] = []
+let wsInstance: WebSocket | null = null
+
+function clearQueueWS() {
+  if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
+    wsInstance.send('clear')
+  }
+}
 
 function connectWs() {
   const wsUrl = 'ws://' + window.location.hostname + ':8080/ws'
   const ws = new WebSocket(wsUrl)
+  wsInstance = ws
   console.log('WS connecting:', wsUrl)
 
   ws.onopen = () => {
@@ -30,8 +38,10 @@ function connectWs() {
       if (data && data.event === 'clear') {
         localStorage.removeItem('client_id')
         clientId = getOrCreateClientId()
-   
         console.log('WS clear event: localStorage cleared & queue refreshed')
+      }
+      if (data && data.event === 'queue') {
+        ws.send('get')
       }
       if (data && typeof data.queue === 'string') {
         currentQueue.value = data.queue
@@ -97,5 +107,5 @@ export function useQueueStore(options?: { skipAutoFetch?: boolean }) {
   if (!options?.skipAutoFetch) {
     fetchQueue()
   }
-  return { currentQueue, yourQueue, nextQueue, clearQueue, onUpdate, fetchQueue }
+  return { currentQueue, yourQueue, nextQueue, clearQueue, clearQueueWS, onUpdate, fetchQueue }
 }

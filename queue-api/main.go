@@ -79,6 +79,7 @@ func main() {
 		   mu.Unlock()
 		   println("/queue clientID:", clientID, "queue:", current)
 		   c.JSON(http.StatusOK, gin.H{"queue": current})
+		   broadcastEvent("queue")
 	   })
 
 	   // HTTP: next queue (POST) for this client id

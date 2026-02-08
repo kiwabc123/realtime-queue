@@ -1,8 +1,10 @@
 <template>
   <div class="container">
-    <h2>รับบัตรคิว</h2>
-    <button @click="goQueue">รับบัตรคิว</button>
-    <button @click="goClear">ล้างคิว</button>
+    <h2 class="title">รับบัตรคิว</h2>
+    <div class="button-group">
+      <button @click="goQueue">รับบัตรคิว</button>
+      <button @click="goClear">ล้างคิว</button>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -16,7 +18,55 @@ function goClear() {
 }
 </script>
 <style scoped>
-.container { max-width: 400px; margin: 40px auto; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; background: #fff; }
-.queue-display { font-size: 2rem; margin: 16px 0; }
-button { margin: 8px; padding: 8px 16px; }
+.title {
+  text-align: center;
+  font-size: 2.2rem;
+  color: #0d47a1;
+  margin-bottom: 32px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+.container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px #b3c6e7;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+}
+.queue-display {
+  font-size: 3rem;
+  margin: 40px auto;
+  padding: 32px 48px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 16px #90caf9;
+  color: #0d47a1;
+  text-align: center;
+  max-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button {
+  margin: 8px;
+  padding: 10px 24px;
+  border-radius: 6px;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  box-shadow: 0 1px 4px #90caf9;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #1565c0;
+}
 </style>

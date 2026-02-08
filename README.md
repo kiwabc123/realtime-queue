@@ -1,3 +1,30 @@
+# Quick Test with curl
+
+You can test the backend API quickly using curl (replace <client-id> as needed):
+
+```sh
+# Get or assign a queue (single request)
+```sh
+curl http://localhost:8080/queue -H "x-client-id: 1"
+```
+
+# Loop: Test multiple clients (IDs 1 to 5)
+```sh
+for i in {1..5}; do
+    curl http://localhost:8080/queue -H "x-client-id: $i"
+    echo
+done
+```
+
+You can also use browser dev tools to test WebSocket:
+
+```js
+let ws = new WebSocket('ws://localhost:8080/ws');
+ws.onmessage = e => console.log(e.data);
+ws.onopen = () => ws.send('get');
+// ws.send('next')
+// ws.send('clear')
+```
 # Requirements
 
 ## Backend

@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { showAlert } from '../utils/alert'
 
 function getOrCreateClientId() {
   let id = localStorage.getItem('client_id')
@@ -18,6 +19,7 @@ let wsInstance: WebSocket | null = null
 function clearQueueWS() {
   if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
     wsInstance.send('clear')
+    showAlert('คิวถูกล้างแล้ว')
   }
 }
 
@@ -70,32 +72,11 @@ async function fetchQueue() {
   if (typeof data.queue === 'string') {
     yourQueue.value = data.queue
     updateCallbacks.forEach(cb => cb(yourQueue.value))
+    showAlert('อัปเดตคิวเรียบร้อย')
   }
 }
 
-async function nextQueue() {
-  const res = await fetch('http://' + window.location.hostname + ':8080/queue/next', {
-    method: 'POST',
-    headers: { 'x-client-id': clientId }
-  })
-  const data = await res.json()
-  if (typeof data.queue === 'string') {
-    yourQueue.value = data.queue
-    updateCallbacks.forEach(cb => cb(yourQueue.value))
-  }
-}
 
-async function clearQueue() {
-  const res = await fetch('http://' + window.location.hostname + ':8080/queue/clear', {
-    method: 'POST',
-    headers: { 'x-client-id': clientId }
-  })
-  const data = await res.json()
-  if (typeof data.queue === 'string') {
-    yourQueue.value = data.queue
-    updateCallbacks.forEach(cb => cb(yourQueue.value))
-  }
-}
 
 function onUpdate(cb: (q: string) => void) {
   updateCallbacks.push(cb)
@@ -107,5 +88,5 @@ export function useQueueStore(options?: { skipAutoFetch?: boolean }) {
   if (!options?.skipAutoFetch) {
     fetchQueue()
   }
-  return { currentQueue, yourQueue, nextQueue, clearQueue, clearQueueWS, onUpdate, fetchQueue }
+  return { currentQueue, yourQueue, clearQueueWS, onUpdate, fetchQueue }
 }

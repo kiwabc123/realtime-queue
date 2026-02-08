@@ -2,6 +2,26 @@
 
 You can test the backend API quickly using curl (replace <client-id> as needed):
 
+## Bash (Linux/macOS/WSL)
+Run this loop in a Bash shell:
+
+```sh
+for i in {1..5}; do
+  curl http://localhost:8080/queue -H "x-client-id: $i"
+  echo
+done
+```
+
+## PowerShell (Windows)
+Run this loop in Windows PowerShell:
+
+```powershell
+for ($i = 1; $i -le 5; $i++) {
+  curl http://localhost:8080/queue -Headers @{"x-client-id"="$i"}
+  Write-Host ""
+}
+```
+
 ```sh
 # Get or assign a queue (single request)
 ```sh

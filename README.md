@@ -1,3 +1,7 @@
+# Important: Docker Compose Version
+
+All docker-compose commands in this guide require Docker Compose v1 (docker-compose with dash). If you are using Docker Compose v2 (docker compose with space), please adapt the commands accordingly. Official support and testing is for v1 only.
+
 
 # Realtime Queue System
 

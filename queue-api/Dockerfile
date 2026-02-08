@@ -1,3 +1,4 @@
+
 FROM golang:1.25
 
 WORKDIR /app
@@ -9,12 +10,10 @@ COPY . .
 RUN [ -f go.mod ] || go mod init queue-api
 RUN go mod tidy
 
-# Install air (correct repo)
-RUN go install github.com/air-verse/air@latest
 
-# Add Go bin to PATH
-ENV PATH="/go/bin:${PATH}"
+# Build Go binary
+RUN go build -o main .
 
 EXPOSE 8080
 
-CMD ["air"]
+CMD ["./main"]

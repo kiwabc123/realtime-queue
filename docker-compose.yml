@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  queue-api:
+    build:
+      context: ./queue-api
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+  vue-frontend:
+    build:
+      context: ./queue-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - queue-api
+    restart: unless-stopped
+    

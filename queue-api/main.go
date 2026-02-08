@@ -25,12 +25,6 @@ func broadcastEvent(event string) {
 	}
 }
 
-// Broadcast queue to all clients
-func broadcastQueue() {
-// NOTE: broadcastQueue is not used for REST anymore, but if you want to broadcast all queues, you can loop userQueues here
-// (or remove this function if not needed)
-}
-
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -80,34 +74,6 @@ func main() {
 		   println("/queue clientID:", clientID, "queue:", current)
 		   c.JSON(http.StatusOK, gin.H{"queue": current})
 		   broadcastEvent("queue")
-	   })
-
-	   // HTTP: next queue (POST) for this client id
-	   r.POST("/queue/next", func(c *gin.Context) {
-		   clientID := getClientID(c)
-		   mu.Lock()
-		   current, ok := userQueues[clientID]
-		   if !ok {
-			   current = "A0"
-		   }
-		   next := nextQueueNumber(current)
-		   userQueues[clientID] = next
-		   mu.Unlock()
-		   println("/queue/next clientID:", clientID, "queue:", next)
-		   c.JSON(http.StatusOK, gin.H{"queue": next})
-	   })
-
-	   // HTTP: clear queue (POST) for this client id
-	   r.POST("/queue/clear", func(c *gin.Context) {
-		   mu.Lock()
-		   for k := range userQueues {
-			   delete(userQueues, k)
-		   }
-		   println("userQueues after clear:", userQueues)
-		   mu.Unlock()
-		   println("/queue/clear ALL queues")
-		   broadcastEvent("clear")
-		   c.JSON(http.StatusOK, gin.H{"queue": "A0"})
 	   })
 
 

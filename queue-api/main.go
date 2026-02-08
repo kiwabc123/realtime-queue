@@ -8,7 +8,6 @@ import (
 	"sync"
 )
 
-
 var clients = make(map[*websocket.Conn]bool)
 var mu sync.Mutex
 var userQueues = make(map[string]string) // sessionID -> queue
